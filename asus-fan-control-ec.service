@@ -1,0 +1,13 @@
+[Unit]
+Description=asus-fan-control-ec fan curve daemon
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/asus-fan-control-ec curve --silent
+ExecStopPost=-/usr/local/bin/asus-fan-control-ec set -1
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

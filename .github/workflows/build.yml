@@ -1,0 +1,21 @@
+name: build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cc: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: make CC=${{ matrix.cc }} CFLAGS="-O2 -Wall -Wextra -Werror -std=c11"
+      - name: Smoke test
+        run: ./asus-fan-control-ec help
+      - name: Staged install
+        run: make install DESTDIR=/tmp/pkg PREFIX=/usr && find /tmp/pkg -type f

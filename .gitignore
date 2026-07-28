@@ -1,0 +1,4 @@
+build/
+asus-fan-control-ec
+*.o
+*.d

@@ -1,0 +1,61 @@
+#compdef asus-fan-control-ec
+
+_asus-fan-control-ec() {
+    local state
+    local -a commands globals
+
+    commands=(
+        'set:set PWM duty 0-255, or -1 to hand control back to the EC'
+        'setp:set duty in percent, or -1 for the same release'
+        'curve:run the fan curve daemon'
+        'fan-speed:show control mode and fan speeds'
+        'fan-info:full state plus channel validation'
+        'temps-info:show both temperatures with their addresses'
+        'help:show usage'
+        'version:show model, EC version and project info'
+    )
+
+    globals=(
+        '--cmd-port[command port]:port:'
+        '--data-port[data port]:port:'
+        '--gap[delay after each write, seconds]:seconds:'
+        '--verbose[trace every port write]'
+    )
+
+    _arguments -C $globals '1: :->command' '*:: :->args'
+
+    case $state in
+        command)
+            _describe -t commands 'command' commands
+            ;;
+        args)
+            case $words[1] in
+                set|setp)
+                    _arguments $globals \
+                        '--fan[act on one fan only]:index:(0 1)' \
+                        '--retries[write attempts before giving up]:count:' \
+                        '--no-verify[write and exit without reading back]' \
+                        '--order[order of the mode and duty writes]:order:(mode-first duty-first)'
+                    ;;
+                curve)
+                    _arguments $globals \
+                        '--config[curve file]:file:_files' \
+                        '--interval[seconds between ticks]:seconds:' \
+                        '--hysteresis[degrees of resistance to stepping down]:degrees:' \
+                        '--panic-temp[force 100 percent at or above]:degrees:' \
+                        '--sensor[which temperature drives the curve]:sensor:(cpu board max)' \
+                        '--retries[write attempts per change]:count:' \
+                        '--order[order of the mode and duty writes]:order:(mode-first duty-first)' \
+                        '--once[one tick, then exit without releasing]' \
+                        '--dry-run[print the parsed curve and exit]' \
+                        '--silent[suppress the periodic line]'
+                    ;;
+                *)
+                    _arguments $globals
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+_asus-fan-control-ec "$@"

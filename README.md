@@ -268,7 +268,7 @@ Healthy table version: 17 (0xBB 50)
 |-|-|-|-|-|
 |ASUS TUF Gaming A15|FA507NV_FA507NV|AMD|3.18|Fully supported|
 |ASUS TUF Gaming A15|FA506IU_FA506IU|AMD|3.19|Fully supported|
-
+|ASUS TUF Gaming A15|FA506II_FA506II|AMD|3.18|Fully supported|
 
 Other models in the family may work, but the ports, addresses and register numbers were confirmed on these machines only.
 
